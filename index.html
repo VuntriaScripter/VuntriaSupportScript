@@ -1,0 +1,551 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Vuntria'sScript</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(0, 140, 255, .35), transparent 25%),
+                radial-gradient(circle at 80% 30%, rgba(0, 80, 255, .25), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(0, 170, 255, .20), transparent 30%),
+                linear-gradient(135deg, #020617, #001b44 45%, #020617);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(2px 2px at 10% 20%, white, transparent),
+                radial-gradient(1px 1px at 25% 70%, white, transparent),
+                radial-gradient(2px 2px at 40% 30%, white, transparent),
+                radial-gradient(1px 1px at 55% 80%, white, transparent),
+                radial-gradient(2px 2px at 70% 15%, white, transparent),
+                radial-gradient(1px 1px at 85% 60%, white, transparent),
+                radial-gradient(2px 2px at 95% 35%, white, transparent);
+            background-size: 350px 350px;
+            opacity: .7;
+            z-index: 0;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        nav {
+            position: relative;
+            z-index: 10;
+            height: 75px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: rgba(2, 6, 23, .65);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(80, 170, 255, .2);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #66c7ff;
+            text-shadow: 0 0 20px #008cff;
+        }
+
+        .logo span {
+            color: white;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav a {
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: .25s;
+        }
+
+        nav a:hover {
+            color: #55bfff;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: clamp(55px, 9vw, 105px);
+            font-weight: 900;
+            letter-spacing: -4px;
+            background: linear-gradient(90deg, #ffffff, #54c7ff, #177bff);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin-top: 20px;
+            color: #b9d8ef;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            padding: 14px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: .3s;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #008cff, #0055ff);
+            box-shadow: 0 0 30px rgba(0, 125, 255, .4);
+        }
+
+        .btn-secondary {
+            color: #bde5ff;
+            border: 1px solid rgba(70, 180, 255, .4);
+            background: rgba(20, 80, 130, .2);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-container {
+            position: relative;
+            z-index: 2;
+            max-width: 750px;
+            margin: -20px auto 60px;
+            padding: 0 20px;
+        }
+
+        #search {
+            width: 100%;
+            padding: 18px 22px;
+            border-radius: 15px;
+            border: 1px solid rgba(80, 180, 255, .35);
+            outline: none;
+            background: rgba(3, 15, 35, .75);
+            color: white;
+            font-size: 16px;
+        }
+
+        #search::placeholder {
+            color: #7ea6c5;
+        }
+
+        /* =========================
+           CONTENT
+        ========================= */
+
+        .content {
+            position: relative;
+            z-index: 2;
+            max-width: 1150px;
+            margin: auto;
+            padding: 0 25px 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .section-title h2 {
+            font-size: 35px;
+        }
+
+        .section-title p {
+            color: #87a9c3;
+            margin-top: 8px;
+        }
+
+        .scripts {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
+        }
+
+        /* =========================
+           SCRIPT CARDS
+        ========================= */
+
+        .card {
+            padding: 25px;
+            border-radius: 18px;
+            background: rgba(4, 20, 43, .65);
+            border: 1px solid rgba(80, 170, 255, .2);
+            backdrop-filter: blur(12px);
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(70, 190, 255, .55);
+            box-shadow: 0 15px 50px rgba(0, 100, 255, .2);
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: rgba(0, 140, 255, .15);
+            font-size: 25px;
+            margin-bottom: 18px;
+        }
+
+        .card h3 {
+            font-size: 21px;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #91afc6;
+            line-height: 1.5;
+        }
+
+        .tag {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #65c9ff;
+            background: rgba(0, 140, 255, .12);
+        }
+
+        .download {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 11px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: white;
+            background: linear-gradient(135deg, #007cff, #0048d9);
+            font-weight: bold;
+            transition: .25s;
+        }
+
+        .download:hover {
+            filter: brightness(1.2);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 30px;
+            color: #63829b;
+            border-top: 1px solid rgba(80, 170, 255, .15);
+            background: rgba(1, 7, 20, .6);
+        }
+
+        footer strong {
+            color: #4dbfff;
+        }
+
+        @media(max-width: 700px) {
+            nav {
+                padding: 0 20px;
+            }
+
+            nav ul {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+    ========================= -->
+
+    <nav>
+
+        <div class="logo">
+            Vuntria<span>Galaxy</span>
+        </div>
+
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#scripts">Scripts</a></li>
+            <li><a href="#about">About</a></li>
+        </ul>
+
+    </nav>
+
+
+    <!-- =========================
+         ACCUEIL
+    ========================= -->
+
+    <section class="hero" id="home">
+
+        <h1>Vuntria Galaxy</h1>
+
+        <p>
+            Discover scripts, tools and resources in the Vuntria Galaxy.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="#scripts" class="btn btn-primary">
+                Explore Scripts
+            </a>
+
+            <a href="#about" class="btn btn-secondary">
+                About Vuntria
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         RECHERCHE
+    ========================= -->
+
+    <div class="search-container">
+
+        <input
+            type="text"
+            id="search"
+            placeholder="🔎 Search for a script..."
+            onkeyup="searchScripts()"
+        >
+
+    </div>
+
+
+    <!-- =========================
+         SCRIPTS
+    ========================= -->
+
+    <main class="content" id="scripts">
+
+        <div class="section-title">
+
+            <h2>Scripts</h2>
+
+            <p>
+                Browse the available Vuntria Galaxy scripts.
+            </p>
+
+        </div>
+
+
+        <div class="scripts" id="scriptList">
+
+
+            <!-- ==================================================
+                 SCRIPT 1
+                 CHANGE LE NOM ET LE LIEN ICI
+            ================================================== -->
+
+            <div class="card">
+
+                <div class="icon">🌌</div>
+
+                <h3>AutoBrolyV8</h3>
+
+                <p>
+                    Dragon Ball Z Final Stand AutoBroly :
+                </p>
+
+                <span class="tag">
+                    Script
+                </span>
+
+
+                <!-- ===== LIEN ICI ===== -->
+
+                <a href="https://raw.githubusercontent.com/VuntriaScripter/ScriptForSiteWeb/refs/heads/main/AutoBrolyV8" class="download">
+                    View Script
+                </a>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 SCRIPT 2
+            ================================================== -->
+
+            <div class="card">
+
+                <div class="icon">⚡</div>
+
+                <h3>Auto Buy Sensu</h3>
+
+                <p>
+                    Dragon Ball Z Final Stand Auto Buy Sensu : 
+                </p>
+
+                <span class="tag">
+                    Utility
+                </span>
+
+
+                <!-- ===== LIEN ICI ===== -->
+
+                <a href="https://raw.githubusercontent.com/VuntriaScripter/ScriptForSiteWeb/refs/heads/main/BLK_Galaxy%20AutoBuy%20Sensu" class="download">
+                    View Script
+                </a>
+
+            </div>
+
+
+
+            <!-- ==================================================
+                 SCRIPT 3
+            ================================================== -->
+
+            <div class="card">
+
+                <div class="icon">🔥</div>
+
+                <h3>Hood Wars ( Is a beta ) </h3>
+
+                <p>
+                    Aimbot , Esp , Silent AIM : 
+                </p>
+
+                <span class="tag">
+                    Hood Wars
+                </span>
+
+
+                <!-- ===== LIEN ICI ===== -->
+
+                <a href="https://raw.githubusercontent.com/VuntriaScripter/ScriptForSiteWeb/refs/heads/main/HoodWars%20Script" class="download">
+                    View Script
+                </a>
+
+            </div>
+
+    <!-- =========================
+         ABOUT
+    ========================= -->
+
+    <section class="content" id="about">
+
+        <div class="section-title">
+
+            <h2>About VuntriaScript </h2>
+
+            <p>
+                VuntriaScript is a futuristic script hub.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        © 2026 <strong>VuntriaScript</strong>
+
+    </footer>
+
+
+    <!-- =========================
+         RECHERCHE
+    ========================= -->
+
+    <script>
+
+        function searchScripts() {
+
+            const input =
+                document.getElementById("search").value.toLowerCase();
+
+            const cards =
+                document.querySelectorAll(".card");
+
+            cards.forEach(card => {
+
+                const text =
+                    card.innerText.toLowerCase();
+
+                if (text.includes(input)) {
+
+                    card.style.display = "";
+
+                } else {
+
+                    card.style.display = "none";
+
+                }
+
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>
+```
